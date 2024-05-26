@@ -1,12 +1,19 @@
-// global.d.ts
-import { DefaultSession, User as NextAuthUser } from "next-auth";
+import { DefaultUser } from "next-auth";
 
 declare module "next-auth" {
-  interface User extends NextAuthUser {
-    role: string;
+  interface User extends DefaultUser {
+    role?: string;
   }
 
   interface Session {
-    user: User & DefaultSession["user"];
+    user: {
+      role?: string;
+    } & DefaultUser;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    role?: string;
   }
 }

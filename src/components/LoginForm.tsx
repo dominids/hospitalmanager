@@ -17,7 +17,7 @@ export default function LoginForm() {
 
     try {
       const res = await signIn("credentials", {
-        email,password, redirect: false //TODO login page not default
+        email,password, redirect: false
       });
 
       if(res.error) {
