@@ -11,7 +11,7 @@ export const authOptions:NextAuthOptions = {
             name: "credentials",
             credentials: {
                 email: { label: "Email", type: "email" },
-                password: { label: "Password", type: "password" }
+                password: { label: "Password", type: "password" },
             },
 
             async authorize(credentials) {
@@ -30,22 +30,20 @@ export const authOptions:NextAuthOptions = {
                     if(!passwordsMatch){
                         return null
                     }
-
-                    return user;
+                    
+                    const sUser ={
+                        email: user.email,
+                        name: user.name,
+                        role: user.role
+                    }
+                    return sUser;
                 } catch (error) {
                     console.log("Error ", error);
                 }
             },
         }),
-    ],
-    session: {
-        strategy: "jwt"
-    },
-    secret: process.env.NEXTAUTH_SECRET,
-    pages: {
-        signIn: "/",
-    },
-};
+    ]
+}
 
 const handler = NextAuth(authOptions);
 

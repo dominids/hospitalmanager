@@ -1,5 +1,5 @@
 import mongoose, { models, Schema } from "mongoose";
-const userSchema: Schema = new Schema({
+const providerNamesSchema: Schema = new Schema({
     name: {
         type: String,
         required: true,
@@ -8,22 +8,18 @@ const userSchema: Schema = new Schema({
         type: String,
         required: true,
     },
-    password: {
+    phoneNumber: {
         type: String,
         required: true,
     },
-    role: {
+    address: {
         type: String,
-        default: "",
+        required: true,
     },
-    location: {
-        type: String,
-        default: "",
-    }
+    
 
-
-}, {timestamps: true}
+}
 );
 
-const User = models.User || mongoose.model("User", userSchema); 
-export default User;
+const ProviderNamesSchema = models.ProviderNamesSchema || mongoose.model("ProviderNamesSchema", providerNamesSchema); 
+export default ProviderNamesSchema;
