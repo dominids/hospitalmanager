@@ -7,10 +7,6 @@ const eventSchema: Schema = new Schema({
     endDate: {
         type: Date,
     },
-    isAdmin: {
-        type: Boolean,
-        default: false,
-    },
     eventDescription: {
         type: String,
         default: "",

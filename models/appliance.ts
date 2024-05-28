@@ -1,10 +1,10 @@
 import mongoose, { models, Schema } from "mongoose";
-import ApplienceNames from "./applienceNames";
+import ApplienceNames from "./applianceNames";
 import ManufacturerNames from "./manufacturersNames";
 import ProviderNamesSchema from "./providerNames";
 import LocationSchema from "./locationNames";
 import { text } from "stream/consumers";
-const applienceSchema: Schema = new Schema({
+const applianceSchema: Schema = new Schema({
     inventoryNumber: {
         type: String,
         required: true,
@@ -13,7 +13,7 @@ const applienceSchema: Schema = new Schema({
         type: Date,
         required: true,
     },
-    applience: {
+    appliance: {
         type: ApplienceNames,
         required: true,
     },
@@ -60,5 +60,5 @@ const applienceSchema: Schema = new Schema({
 }, {timestamps: true}
 );
 
-const Applience = models.Applience || mongoose.model("Applience", applienceSchema); 
-export default Applience;
+const Appliance = models.Appliance || mongoose.model("Appliance", applianceSchema); 
+export default Appliance;
