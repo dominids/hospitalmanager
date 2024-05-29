@@ -1,5 +1,5 @@
 import mongoose, { models, Schema } from "mongoose";
-const locationSchema: Schema = new Schema({
+const locationNamesSchema: Schema = new Schema({
     name: {
         type: String,
         required: true,
@@ -9,5 +9,5 @@ const locationSchema: Schema = new Schema({
 }
 );
 
-const LocationSchema = models.LocationSchema || mongoose.model("LocationSchema", locationSchema); 
-export default LocationSchema;
+const LocationNames = models.LocationNames || mongoose.model("LocationNames", locationNamesSchema); 
+export default LocationNames;

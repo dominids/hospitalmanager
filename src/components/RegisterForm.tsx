@@ -10,15 +10,17 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter(); //for routing do index after register
 
   const handleSubmit = async (e) => {
     e.preventDefault(); //check if it's not default
-
+    setIsSubmitting(true);
     //check if any of the values are blank
     if (!name || !email || !password) {
       setError("All Fields are necessary.");
+      setIsSubmitting(false);
       return;
     }
     
@@ -31,11 +33,12 @@ export default function RegisterForm() {
         },
         body: JSON.stringify({ email }), //stringify converts value to json
       })
-
+      
       const { user } = await resUserExists.json(); //pass the searched result and asign to user
       //if user is not null return an error and exit the function
       if (user) {
         setError("User already exists");
+        setIsSubmitting(false);
         return;
       }
 
@@ -50,6 +53,7 @@ export default function RegisterForm() {
         })
       });
 
+
       //if the querry is ok then we reset the form
       if (res.ok) {
         const form = e.target;
@@ -60,8 +64,10 @@ export default function RegisterForm() {
       } else {
         setError("User registration failed");
       }
+      setIsSubmitting(false);
     } catch (error) {
       console.log("Error during the registration", error)
+      setIsSubmitting(false);
     }
   }
 
@@ -72,9 +78,9 @@ export default function RegisterForm() {
 
         <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
           <input type="text" onChange={(e) => setName(e.target.value)} placeholder="Full Name" />
-          <input type="text" onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+          <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
           <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-          <button onSubmit={handleSubmit} className="bg-green-600 hover:bg-green-700 text-white font-bold cursor-pointer px-6 py-2"> Register </button>
+          <button disabled={isSubmitting} onSubmit={handleSubmit} className="disabled:bg-gray-500 bg-green-600 hover:bg-green-700 text-white font-bold cursor-pointer px-6 py-2"> Register </button>
           {error && (
             <div className="bg-red-500 text-white text-sm w-fit py-1 px3 rounded-md mt-2">{error}</div>
           )}

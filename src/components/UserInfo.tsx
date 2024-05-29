@@ -8,7 +8,6 @@ export default function UserInfo(){
     const {data: session} = useSession();
 
     return (
-    <div className="">
         <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6">
             <div>
                 <span className="font-bold">User <br /> </span>
@@ -37,6 +36,5 @@ export default function UserInfo(){
                 Rola: <span className="font-bold"> {session?.user?.role}</span>
                 </div>
         </div>
-    </div>
 )
 }

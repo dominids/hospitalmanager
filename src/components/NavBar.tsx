@@ -52,11 +52,27 @@ export default function NavBar({ children }) {
                         <li className="hover:bg-teal-200 px-2 bg-teal-100 font-bold">New whole appliance</li>
                         <hr className="border border-black border-solid"></hr>
                         <ul>
-                            <li className=" bg-teal-100 font-bold px-2">ADD NEW</li>
-                            <li className="hover:bg-zinc-200 px-2 bg-teal-50">Appliance</li>
-                            <li className="hover:bg-zinc-200 px-2 bg-teal-50">Event</li>
-                            <li className="hover:bg-zinc-200 px-2 bg-teal-50">Location</li>
-                            <li className="hover:bg-zinc-200 px-2 bg-teal-50">Provider</li>
+                            <li className=" bg-teal-100 font-bold px-2">ADD NEW VALUES</li>
+                            <li className="hover:bg-zinc-200 px-2 bg-teal-50">
+                                <Link href={'/add/appliance'}>
+                                    Appliance
+                                </Link>
+                            </li>
+                            <li className="hover:bg-zinc-200 px-2 bg-teal-50">
+                                <Link href={'/add/event'}>
+                                    Event
+                                </Link>
+                            </li>    
+                            <li className="hover:bg-zinc-200 px-2 bg-teal-50">
+                                <Link href={'/add/location'}>
+                                    Location
+                                </Link>
+                            </li>
+                            <li className="hover:bg-zinc-200 px-2 bg-teal-50">
+                                <Link href={'/add/manufacturer'}>
+                                    Manufacturer
+                                </Link>
+                            </li>
                         </ul>
                         <hr className="border border-black border-solid"></hr>
                         <li className="hover:bg-teal-200 px-2 bg-teal-100 font-bold">Set New Admin</li>
