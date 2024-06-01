@@ -41,7 +41,7 @@ export default function LoginForm() {
         <h1 className="text-xl font-bold my-4 to-black">Login</h1>
 
         <form action="" className="flex flex-col gap-3" onSubmit={handleSubmit}>
-          <input type="text" onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+          <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
           <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
           <button disabled={isSubmitting} className="bg-green-600 hover:bg-green-700 disabled:bg-gray-500 text-white font-bold cursor-pointer px-6 py-2">Log in</button>
 

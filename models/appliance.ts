@@ -5,16 +5,16 @@ import ProviderNamesSchema from "./providerNames";
 import LocationSchema from "./locationNames";
 import { text } from "stream/consumers";
 const applianceSchema: Schema = new Schema({
+    appliance: {
+        type: ApplienceNames,
+        required: true,
+    },
     inventoryNumber: {
         type: String,
         required: true,
     },
     serialNumber: {
         type: Date,
-        required: true,
-    },
-    appliance: {
-        type: ApplienceNames,
         required: true,
     },
     manufacturer: {
@@ -52,6 +52,9 @@ const applianceSchema: Schema = new Schema({
     //dodaj obsługę zdjęć
     notes: {
         type: String
+    },
+    event:{
+        type: Event
     }
 
 

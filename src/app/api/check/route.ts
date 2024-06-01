@@ -17,15 +17,15 @@ export async function POST(req) {
                 return NextResponse.json({ appliance });
                 break;
             case "event":
-                const event = await ApplianceNames.findOne({ name }).select("_id");
+                const event = await EventNames.findOne({ name }).select("_id");
                 return NextResponse.json({ event });
                 break;
             case "location":
-                const location = await ApplianceNames.findOne({ name }).select("_id");
+                const location = await LocationNames.findOne({ name }).select("_id");
                 return NextResponse.json({ location });
                 break;
             case "manufacturer":
-                const manufacturer = await ApplianceNames.findOne({ name }).select("_id");
+                const manufacturer = await ManufacturerNames.findOne({ name }).select("_id");
                 return NextResponse.json({ manufacturer });
                 break;
         }
