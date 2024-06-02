@@ -75,6 +75,11 @@ export default function NavBar({ children }) {
                                         Manufacturer
                                     </Link>
                                 </li>
+                                <li className="hover:bg-zinc-200 px-2 bg-teal-50">
+                                    <Link href={'/add/provider'}>
+                                        Provider
+                                    </Link>
+                                </li>
                             </ul>
                             <hr className="border border-black border-solid"></hr>
                             <li className="hover:bg-teal-200 px-2 bg-teal-100 font-bold">Set New Admin</li>

@@ -155,7 +155,7 @@ export default function Form(props) {
         }
     }
     return (
-        <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6 h-screen items-center">
+        <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6 h-full items-center">
             <h1 className="text-xl font-bold my-4 to-black">Add {props.direction}</h1>
             <form action="" className="" onSubmit={handleSubmit}>
                 <input type="text" maxLength={30} minLength={3} className="mr-2" onChange={(e) => setName(e.target.value)} placeholder="Name" />

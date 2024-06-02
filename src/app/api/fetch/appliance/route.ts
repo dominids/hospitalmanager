@@ -13,15 +13,3 @@ export async function GET() {
         return NextResponse.json({ message: "Error occured while fetching the data" }, { status: 500 });
     }
 }
-
-export async function PUT(req, res) {
-    try {
-        await connectMongoDB();
-        const appliance = await ApplianceNames.find();
-        console.log(appliance);
-        return NextResponse.json({message: "Data updated successfully"});
-
-    } catch (error) {
-        return NextResponse.json({ message: "Error occured while fetching the data" }, { status: 500 });
-    }
-}

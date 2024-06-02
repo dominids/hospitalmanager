@@ -3,7 +3,6 @@ import ApplienceNames from "./applianceNames";
 import ManufacturerNames from "./manufacturersNames";
 import ProviderNamesSchema from "./providerNames";
 import LocationSchema from "./locationNames";
-import { text } from "stream/consumers";
 const applianceSchema: Schema = new Schema({
     appliance: {
         type: ApplienceNames,
