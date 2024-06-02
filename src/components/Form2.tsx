@@ -177,7 +177,7 @@ export default function Form2(props) {
             <h1 className="text-xl font-bold my-4 to-black">Add provider</h1>
             <form action="" onSubmit={handleSubmit}>
                 <div className="flex flex-row">
-                    <input type="text" maxLength={30} minLength={3} className="mr-2 w-full " onChange={(e) => setName(e.target.value)} placeholder="Name" />
+                    <input type="text" maxLength={30} minLength={3} className="mr-2 w-full" onChange={(e) => setName(e.target.value)} placeholder="Name" />
                     <input type="text" maxLength={60} minLength={3} className="mr-2 w-full" onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
                     <input type="text" maxLength={30} minLength={3} className="mr-2 w-full" onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone Number" />
                     <input type="text" maxLength={60} minLength={3} className="mr-2 w-full" onChange={(e) => setAddress(e.target.value)} placeholder="Address" />
