@@ -21,8 +21,8 @@ export default function NavBar({ children }) {
     };
 
     return (<>
-            {session ? (<>
-        <div className="container flex flex-col">
+        {session ? (<>
+            <div className="container flex flex-col">
                 <ul className="flex flex-row flex-wrap justify-between text-base">
                     <li className="px-1 py-2 flex">
                         {session?.user?.role == 'admin' ?
@@ -34,7 +34,7 @@ export default function NavBar({ children }) {
                                 <div className="bar2"></div>
                                 <div className="bar3"></div>
                             </div>
-                        : null}
+                            : null}
                         <Link href={'/dashboard'}>
                             Hospital manager <span className="font-bold">{session?.user?.role}</span>
                         </Link>
@@ -48,10 +48,14 @@ export default function NavBar({ children }) {
                     </li>
                 </ul>
                 <div className="flex flex-row">
-                    <div className={listState ? 'w-60 mr-1' : 'hidden' }>
+                    <div className={listState ? 'w-60 mr-1' : 'hidden'}>
                         <ul className=" w-52">
                             <li className="px-2 select-none">&nbsp;</li>
-                            <li className="hover:bg-teal-200 px-2 bg-teal-100 font-bold">New whole appliance</li>
+                            <li className="hover:bg-teal-200 px-2 bg-teal-100 font-bold">
+                                <Link href={'/add/wholeAppliance'}>
+                                    New whole appliance
+                                </Link>
+                            </li>
                             <hr className="border border-black border-solid"></hr>
                             <ul>
                                 <li className=" bg-teal-100 font-bold px-2">ADD NEW VALUES</li>
@@ -89,7 +93,7 @@ export default function NavBar({ children }) {
                         {children}
                     </div>
                 </div>
-        </div>
-            </>) : children}
+            </div>
+        </>) : children}
     </>)
 }

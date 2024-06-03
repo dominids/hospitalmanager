@@ -23,7 +23,7 @@ export default function Form2(props) {
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState<{ [key: string]: Item[] }>({});
+    const [data, setData] = useState<{ [key: string]: Item[]}>({});
     const [editing, setEditing] = useState<{ category: string, id: string } | null>(null);
     const [newName, setNewName] = useState<{ name: string, email: string, phoneNumber: string, address: string } | null>(null);
 
@@ -163,7 +163,11 @@ export default function Form2(props) {
                 form.reset();
                 setError("");
                 fetchData(); // Fetch the updated data after successful addition
-                setData({});
+                setData(null);
+                setName("");
+                setEmail("");
+                setPhoneNumber("");
+                setAddress("");
             } else {
                 setError("Registration failed");
             }

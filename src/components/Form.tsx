@@ -146,6 +146,8 @@ export default function Form(props) {
                 form.reset();
                 setError("");
                 fetchData(); // Fetch the updated data after successful addition
+                setData({});
+                setName("");
             } else {
                 setError("Registration failed");
             }

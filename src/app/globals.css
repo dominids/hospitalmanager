@@ -3,7 +3,10 @@
   @tailwind utilities;
   
 input {
-  @apply w-[400px] border border-gray-200 py-2 px-6 bg-zinc-100/40;
+  @apply w-[400px]  border-2 border-gray-200 py-2.5 px-6 bg-zinc-100/40;
+}
+select, textarea {
+  @apply w-[400px]  border-2 border-gray-200 bg-zinc-100/40;
 }
 
 .bar1, .bar2, .bar3 {

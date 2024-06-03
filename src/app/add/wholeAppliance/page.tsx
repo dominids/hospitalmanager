@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import Form2 from "@/components/Form2";
+import FinalForm from "@/components/FinalForm";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -9,6 +9,6 @@ export default async function Home() {
   if (!session) redirect("/dashboard")
 
   return (
-    <Form2></Form2>
+    <FinalForm></FinalForm>
   );
 }

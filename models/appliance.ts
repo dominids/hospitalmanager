@@ -3,17 +3,18 @@ import ApplienceNames from "./applianceNames";
 import ManufacturerNames from "./manufacturersNames";
 import ProviderNamesSchema from "./providerNames";
 import LocationSchema from "./locationNames";
+import Event from "./event";
 const applianceSchema: Schema = new Schema({
     appliance: {
         type: ApplienceNames,
         required: true,
     },
     inventoryNumber: {
-        type: String,
+        type: Number,
         required: true,
     },
     serialNumber: {
-        type: Date,
+        type: String,
         required: true,
     },
     manufacturer: {
@@ -52,15 +53,11 @@ const applianceSchema: Schema = new Schema({
     notes: {
         type: String
     },
-    event:{
+    event: {
         type: Event
     }
-
-
-    
-
-}, {timestamps: true}
+}, { timestamps: true }
 );
 
-const Appliance = models.Appliance || mongoose.model("Appliance", applianceSchema); 
+const Appliance = models.Appliance || mongoose.model("Appliance", applianceSchema);
 export default Appliance;
