@@ -3,15 +3,11 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { Item } from "../../global";
 
-interface Item {
-    _id: string;
-    name: string;
-    __v: number;
-}
 export default function Form(props) {
     const { data: session } = useSession();
-    if(!session) redirect("/dashboard")
+    if (!session) redirect("/dashboard")
 
     const [name, setName] = useState("");
     const [error, setError] = useState("");
@@ -22,18 +18,17 @@ export default function Form(props) {
     const [newName, setNewName] = useState<string>('');
 
     const src = props.direction;
-
+    const category = src;
 
     useEffect(() => {
         setIsLoading(true);
         fetchData();
-        setIsLoading(false);
     }, [editing])
-
+    
     const fetchData = async () => {
-        if(!session?.user?.role) redirect("/dashboard")
-        try {
-            const resNameExists = await fetch(`/api/fetch/${src}`, {
+        if (!session?.user?.role) redirect("/dashboard")
+            try {
+            const resNameExists = await fetch(`/api/fetch/${category}`, {
                 method: "GET", //method in api
                 headers: {
                     "Content-Type": "application/json",
@@ -42,6 +37,7 @@ export default function Form(props) {
             const resNameExistsJSON = await resNameExists.json();
             if (resNameExistsJSON && typeof resNameExistsJSON === 'object') {
                 setData(resNameExistsJSON);
+                setIsLoading(false);
             } else {
                 console.error('Fetched data is not in the expected format');
             }
@@ -49,10 +45,10 @@ export default function Form(props) {
             console.error('Error fetching data:', error);
         }
     };
-
+    
 
     const handleDelete = async (category: string, id: string) => {
-        if(!session?.user?.role) redirect("/dashboard")
+        if (!session?.user?.role) redirect("/dashboard")
         try {
             const response = await fetch(`/api/fetch/${category}/${id}`, { method: 'DELETE' });
             if (!response.ok) {
@@ -72,7 +68,7 @@ export default function Form(props) {
     };
 
     const handleUpdate = async () => {
-        if(!session?.user?.role) redirect("/dashboard")
+        if (!session?.user?.role) redirect("/dashboard")
         if (!editing) return;
         const { category, id } = editing;
         try {
@@ -99,7 +95,7 @@ export default function Form(props) {
     };
 
     const handleSubmit = async (e) => {
-        if(!session?.user?.role) redirect("/dashboard")
+        if (!session?.user?.role) redirect("/dashboard")
         e.preventDefault(); //check if it's not default
         setIsSubmitting(true);
 

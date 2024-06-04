@@ -6,8 +6,7 @@ export async function POST(req) {
     const { inventoryNumber } = await req.json();
     try {
         await connectMongoDB();
-        const id = await Appliance.findOne({ inventoryNumber:Number }).select("_id");
-        console.log(`Searcher`);
+        const id = await Appliance.find({ inventoryNumber: inventoryNumber  }).select("_id");
         return NextResponse.json({ id });
     } catch (error) {
         return NextResponse.json({ message: "Error occured while searching" }, { status: 500 });

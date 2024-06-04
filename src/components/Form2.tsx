@@ -33,13 +33,12 @@ export default function Form2(props) {
     useEffect(() => {
         setIsLoading(true);
         fetchData();
-        setIsLoading(false);
     }, [editing])
-
+    
     const fetchData = async () => {
         if (!session?.user?.role) redirect("/dashboard")
-        try {
-            const resNameExists = await fetch(`/api/fetch2`, {
+            try {
+        const resNameExists = await fetch(`/api/fetch2`, {
                 method: "GET", //method in api
                 headers: {
                     "Content-Type": "application/json",
@@ -48,6 +47,7 @@ export default function Form2(props) {
             const resNameExistsJSON = await resNameExists.json();
             if (resNameExistsJSON && typeof resNameExistsJSON === 'object') {
                 setData(resNameExistsJSON);
+                setIsLoading(false);
             } else {
                 console.error('Fetched data is not in the expected format');
             }
@@ -59,9 +59,9 @@ export default function Form2(props) {
 
     const handleDelete = async (category: string, id: string) => {
         if (!session?.user?.role) redirect("/dashboard")
-        try {
-            const response = await fetch(`/api/fetch2/${id}`, { method: 'DELETE' });
-            if (!response.ok) {
+            try {
+        const response = await fetch(`/api/fetch2/${id}`, { method: 'DELETE' });
+        if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const updatedCategory = data[category].filter(item => item._id !== id);
@@ -79,7 +79,7 @@ export default function Form2(props) {
 
     const handleUpdate = async () => {
         if (!session?.user?.role) redirect("/dashboard")
-        if (!editing) return;
+            if (!editing) return;
         const { category, id } = editing;
         try {
             const response = await fetch(`/api/fetch2/${id}`, {
@@ -116,16 +116,16 @@ export default function Form2(props) {
 
     const handleSubmit = async (e) => {
         if (!session?.user?.role) redirect("/dashboard")
-        e.preventDefault(); //check if it's not default
+            e.preventDefault(); //check if it's not default
         setIsSubmitting(true);
-
+        
         if (!name || !email || !phoneNumber || !address) {
             setError("All fields are mandatory");
             setIsSubmitting(false);
             return;
         }
         try {
-
+            
             //check if user exists 
             const resNameExists = await fetch('/api/check2', {
                 method: "POST", //method in api
@@ -134,7 +134,7 @@ export default function Form2(props) {
                 },
                 body: JSON.stringify({ name }) //stringify converts value to json
             })
-
+            
             const { payload } = await resNameExists.json(); //pass the searched result and asign to user
             //if user is not null return an error and exit the function
             if (payload) {
@@ -142,7 +142,7 @@ export default function Form2(props) {
                 setIsSubmitting(false);
                 return;
             }
-
+            
             const res = await fetch('/api/fetch2', {
                 method: "POST",
                 headers: {
@@ -155,15 +155,14 @@ export default function Form2(props) {
                     address,
                 })
             });
-
-
+            
+            
             //if the query is ok then we reset the form
             if (res.ok) {
                 const form = e.target;
                 form.reset();
                 setError("");
                 fetchData(); // Fetch the updated data after successful addition
-                setData(null);
                 setName("");
                 setEmail("");
                 setPhoneNumber("");

@@ -1,7 +1,7 @@
-import UserInfo from "@/components/UserInfo";
+import Dash from "@/components/Dashboard";
 
 export default function Dashboard(){
-    return (<>
-    <UserInfo />
-    </>)
+    return (
+        <Dash></Dash>
+    )
 }

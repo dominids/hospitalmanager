@@ -1,38 +1,48 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-
+import Select from "./select";
 export default function FinalForm(props) {
     const { data: session } = useSession();
     if (!session) redirect("/dashboard")
 
     const [appliance, setAppliance] = useState("");
+    function Sappliance(v){
+        setAppliance(v);
+    }
     const [inventoryNumber, setInventoryNumber] = useState("");
     const [serialNumber, setSerialNumber] = useState("");
     const [manufacturer, setManufacturer] = useState("");
+    function SManufacturer(v){
+        setManufacturer(v);
+    }
     const [provider, setProvider] = useState("");
-    const [model, setModel] = useState("");
+    function SProvider(v){
+        setProvider(v);
+    }
     const [location, setLocation] = useState("");
+    function SLocation(v){
+        setLocation(v);
+    }
+    const [model, setModel] = useState("");
     const [buyDate, setBuyDate] = useState("");
     const [guaranteeDate, setGuaranteeDate] = useState("");
     const [reviewDate, setReviewDate] = useState("");
     const [worth, setWorth] = useState("");
     const [notes, setNotes] = useState("");
-
+    const [data, setData] = useState("");
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const src = "New Appliance";
 
     const handleSubmit = async (e) => {
         if (!session?.user?.role) redirect("/dashboard")
         e.preventDefault(); //check if it's not default
         setIsSubmitting(true);
 
-        if (appliance=="select#123456789" || !inventoryNumber || !serialNumber || manufacturer=="select#123456789" || provider=="select#123456789" ||
-            !model || location=="select#123456789" || !buyDate || !guaranteeDate || !reviewDate || worth=="zł") {
+        if (appliance == "select#123456789" || !inventoryNumber || !serialNumber || manufacturer == "select#123456789" || provider == "select#123456789" ||
+            !model || location == "select#123456789" || !buyDate || !guaranteeDate || !reviewDate || worth == "zł") {
             setError("All fields are mandatory");
             setIsSubmitting(false);
             return;
@@ -55,14 +65,14 @@ export default function FinalForm(props) {
                 return;
             }
             //creating the appliance
-            console.log(appliance,inventoryNumber,serialNumber,manufacturer,provider,model,location,buyDate,guaranteeDate,reviewDate,worth,notes);
-            const res = await fetch('/api/fetch2', {
+            console.log(appliance, inventoryNumber, serialNumber, manufacturer, provider, model, location, buyDate, guaranteeDate, reviewDate, worth, notes);
+            const res = await fetch('/api/fetch3', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    appliance,inventoryNumber,serialNumber,manufacturer,provider,model,location,buyDate,guaranteeDate,reviewDate,worth,notes
+                    appliance, inventoryNumber, serialNumber, manufacturer, provider, model, location, buyDate, guaranteeDate, reviewDate, worth, notes
                 })
             });
 
@@ -107,10 +117,7 @@ export default function FinalForm(props) {
                     </label>
                     <label>
                         Appliance name
-                        <select className="w-full p-3 text-ellipsis" onChange={(e) => setAppliance(e.target.value)}>
-                            <option value="select#123456789">select</option>
-                            <option value="kukle">kuklekuklekuklekuklekuklekukle</option>
-                        </select>
+                        <Select category="appliance" value={Sappliance}></Select>
                     </label>
                     <label>
                         Model
@@ -118,17 +125,11 @@ export default function FinalForm(props) {
                     </label>
                     <label>
                         Manufacturer
-                        <select className="w-full p-3 text-ellipsis" onChange={(e) => { setManufacturer(e.target.value); console.log(e.target.value) }}>
-                            <option value="select#123456789">select</option>
-                            <option value="kukle">kuklekuklekuklekuklekuklekukle</option>
-                        </select>
+                        <Select category="manufacturerNames" value={SManufacturer}></Select>
                     </label>
                     <label>
                         Provider
-                        <select className="w-full p-3 text-ellipsis" onChange={(e) => setProvider(e.target.value)}>
-                            <option value="select#123456789">select</option>
-                            <option value="kukle">kuklekuklekuklekuklekuklekukle</option>
-                        </select>
+                        <Select category="provider" value={SProvider}></Select>
                     </label>
                     <label>
                         Buy Date
@@ -148,10 +149,7 @@ export default function FinalForm(props) {
                     </label>
                     <label>
                         Location
-                        <select className="w-full p-3 text-ellipsis" onChange={(e) => setLocation(e.target.value)}>
-                            <option value="select#123456789">select</option>
-                            <option value="kukle">kuklekuklekuklekuklekuklekukle</option>
-                        </select>
+                        <Select category="locationNames" value={SLocation}></Select>
                     </label>
                 </div>
                 <label>

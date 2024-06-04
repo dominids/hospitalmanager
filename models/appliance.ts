@@ -1,12 +1,14 @@
-import mongoose, { models, Schema } from "mongoose";
-import ApplienceNames from "./applianceNames";
-import ManufacturerNames from "./manufacturersNames";
-import ProviderNamesSchema from "./providerNames";
-import LocationSchema from "./locationNames";
-import Event from "./event";
-const applianceSchema: Schema = new Schema({
+import mongoose, { Schema, models } from 'mongoose';
+import ApplienceNames from './applianceNames';
+import ManufacturerNames from './manufacturersNames';
+import ProviderNamesSchema from './providerNames';
+import LocationSchema from './locationNames';
+import Event from './event';
+
+const applianceSchema = new Schema({
     appliance: {
-        type: ApplienceNames,
+        type: Schema.Types.ObjectId, // Use ObjectId if this is a reference
+        ref: 'ApplienceNames',       // Reference the model name
         required: true,
     },
     inventoryNumber: {
@@ -18,11 +20,13 @@ const applianceSchema: Schema = new Schema({
         required: true,
     },
     manufacturer: {
-        type: ManufacturerNames,
+        type: Schema.Types.ObjectId, // Use ObjectId if this is a reference
+        ref: 'ManufacturerNames',    // Reference the model name
         required: true,
     },
     provider: {
-        type: ProviderNamesSchema,
+        type: Schema.Types.ObjectId, // Use ObjectId if this is a reference
+        ref: 'ProviderNames',        // Reference the model name
         required: true,
     },
     model: {
@@ -30,7 +34,8 @@ const applianceSchema: Schema = new Schema({
         required: true,
     },
     location: {
-        type: LocationSchema,
+        type: Schema.Types.ObjectId, // Use ObjectId if this is a reference
+        ref: 'LocationNames',        // Reference the model name
         required: true,
     },
     buyDate: {
@@ -49,15 +54,14 @@ const applianceSchema: Schema = new Schema({
         type: String,
         required: true,
     },
-    //dodaj obsługę zdjęć
     notes: {
-        type: String
+        type: String,
     },
     event: {
-        type: Event
+        type: Schema.Types.ObjectId,
+        ref: 'Event'
     }
-}, { timestamps: true }
-);
+}, { timestamps: true });
 
-const Appliance = models.Appliance || mongoose.model("Appliance", applianceSchema);
+const Appliance = models.Appliance || mongoose.model('Appliance', applianceSchema);
 export default Appliance;

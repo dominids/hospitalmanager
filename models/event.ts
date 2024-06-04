@@ -1,7 +1,9 @@
 import mongoose, { models, Schema } from "mongoose";
+import EventNames from "./eventNames";
 const eventSchema: Schema = new Schema({
     name: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'EventNames',
         required: true,
     },
     endDate: {
@@ -10,6 +12,9 @@ const eventSchema: Schema = new Schema({
     eventDescription: {
         type: String,
         default: "",
+    },
+    color: {
+        type: String,
     }
     
 

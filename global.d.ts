@@ -17,3 +17,9 @@ declare module "next-auth/jwt" {
     role?: string;
   }
 }
+
+interface Item {
+  _id: string;
+  name: string;
+  __v: number;
+}
