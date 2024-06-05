@@ -1,10 +1,23 @@
 import { connectMongoDB } from "../../../../../lib/mongodb";
-import ApplianceNames from "../../../../../models/applianceNames";
-import EventNames from "../../../../../models/eventNames";
-import LocationNames from "../../../../../models/locationNames";
-import ManufacturerNames from "../../../../../models/manufacturersNames";
 import { NextRequest, NextResponse } from "next/server";
-import ProviderNamesSchema from "../../../../../models/providerNames";
+import Appliance from "../../../../../models/appliance";
+
+
+export async function GET(req: NextRequest, { params }) {
+    const {id} = params;
+    console.log(`Request received: Method - GET, ID - ${id}`);
+    try {
+        await connectMongoDB();
+        const appliance = await Appliance.find().select('-appliance -inventoryNumber -model -event -__v -notes');
+        console.log(appliance);
+        return NextResponse.json({ appliance }, { status: 201 });
+
+    } catch (error) {
+        console.error("Error fetching appliances:", error.message);
+        console.error("Error stack:", error.stack);
+        throw error;
+    }
+}
 
 export async function DELETE(req: NextRequest, { params }) {
     const {id} = params;
@@ -12,7 +25,7 @@ export async function DELETE(req: NextRequest, { params }) {
     await connectMongoDB();
 
     try {
-        const deletedItem = await ProviderNamesSchema.findByIdAndDelete(id);
+        const deletedItem = await Appliance.findByIdAndDelete(id);
         if (!deletedItem) {
             NextResponse.json({ message: "Item not found" }, { status: 404 });
         }
@@ -25,7 +38,7 @@ export async function DELETE(req: NextRequest, { params }) {
 
 export async function PUT(req: NextRequest, { params }) {
     const { category, id } = params;
-    const { name, email, phoneNumber, address } = await req.json();
+    const { appliance, inventoryNumber, model } = await req.json();
 
     console.log(`Request received: Method - PUT, Category - ${category}, ID - ${id}, Name - ${name}`);
 
@@ -33,7 +46,7 @@ export async function PUT(req: NextRequest, { params }) {
 
     try {
 
-        const updatedItem = await ProviderNamesSchema.findByIdAndUpdate(id, { name, email, phoneNumber, address });
+        const updatedItem = await Appliance.findByIdAndUpdate(id, { appliance: appliance, inventoryNumber: parseFloat(inventoryNumber), model: model });
         if (!updatedItem) {
             return NextResponse.json({ success: false, message: 'Item not found' }, { status: 404 });
         }

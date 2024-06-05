@@ -2,7 +2,7 @@ import { connectMongoDB } from "../../../../../lib/mongodb";
 import EventNames from "../../../../../models/eventNames";
 import LocationNames from "../../../../../models/locationNames";
 import ManufacturerNames from "../../../../../models/manufacturersNames";
-import ApplianceNames from "../../../../../models/applianceNames";
+import ApplianceNames from "../../../../../models/ApplianceNames";
 import { NextRequest, NextResponse } from "next/server";
 import ProviderNamesSchema from "../../../../../models/providerNames";
 
@@ -21,7 +21,7 @@ export async function GET(req: NextRequest, { params }) {
             model = EventNames;
         } else if (category === 'locationNames') {
             model = LocationNames;
-        } else if (category === 'manufacturerNames') {
+        } else if (category === 'manufacturer') {
             model = ManufacturerNames;
         }else if (category === 'provider') {
             model = ProviderNamesSchema;

@@ -3,14 +3,12 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { Item } from "../../global";
 
-interface Item {
-    _id: string;
-    name: string;
+interface Item2 extends Item {
     email: string,
     phoneNumber: string,
     address: string,
-    __v: number;
 }
 export default function Form2(props) {
     const { data: session } = useSession();
@@ -23,7 +21,7 @@ export default function Form2(props) {
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState<{ [key: string]: Item[]}>({});
+    const [data, setData] = useState<{ [key: string]: Item2[]}>({});
     const [editing, setEditing] = useState<{ category: string, id: string } | null>(null);
     const [newName, setNewName] = useState<{ name: string, email: string, phoneNumber: string, address: string } | null>(null);
 

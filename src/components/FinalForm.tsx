@@ -65,7 +65,9 @@ export default function FinalForm(props) {
                 return;
             }
             //creating the appliance
-            console.log(appliance, inventoryNumber, serialNumber, manufacturer, provider, model, location, buyDate, guaranteeDate, reviewDate, worth, notes);
+            console.log(JSON.stringify({
+                appliance, inventoryNumber, serialNumber, manufacturer, provider, model, location, buyDate, guaranteeDate, reviewDate, worth, notes
+            }));
             const res = await fetch('/api/fetch3', {
                 method: "POST",
                 headers: {

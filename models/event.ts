@@ -2,8 +2,7 @@ import mongoose, { models, Schema } from "mongoose";
 import EventNames from "./eventNames";
 const eventSchema: Schema = new Schema({
     name: {
-        type: Schema.Types.ObjectId,
-        ref: 'EventNames',
+        type: String,
         required: true,
     },
     endDate: {

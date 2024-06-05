@@ -42,7 +42,7 @@ export default function Select({ category, value }) {
                     <option defaultChecked value={"select#123456789"}>select</option>
                     {Object.keys(data).map((category) => (
                         data[category].map((item) => (
-                            <option key={item._id} value={item._id}>
+                            <option key={item._id} value={item.name}>
                                 {item.name}
                             </option>
                         ))

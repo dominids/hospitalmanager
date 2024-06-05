@@ -1,14 +1,10 @@
 import mongoose, { Schema, models } from 'mongoose';
-import ApplienceNames from './applianceNames';
-import ManufacturerNames from './manufacturersNames';
-import ProviderNamesSchema from './providerNames';
-import LocationSchema from './locationNames';
-import Event from './event';
+
+
 
 const applianceSchema = new Schema({
     appliance: {
-        type: Schema.Types.ObjectId, // Use ObjectId if this is a reference
-        ref: 'ApplienceNames',       // Reference the model name
+        type: String,
         required: true,
     },
     inventoryNumber: {
@@ -20,22 +16,18 @@ const applianceSchema = new Schema({
         required: true,
     },
     manufacturer: {
-        type: Schema.Types.ObjectId, // Use ObjectId if this is a reference
-        ref: 'ManufacturerNames',    // Reference the model name
+        type: String,
         required: true,
     },
     provider: {
-        type: Schema.Types.ObjectId, // Use ObjectId if this is a reference
-        ref: 'ProviderNames',        // Reference the model name
-        required: true,
+        type: String,
     },
     model: {
         type: String,
         required: true,
     },
     location: {
-        type: Schema.Types.ObjectId, // Use ObjectId if this is a reference
-        ref: 'LocationNames',        // Reference the model name
+        type: String,
         required: true,
     },
     buyDate: {
@@ -58,8 +50,19 @@ const applianceSchema = new Schema({
         type: String,
     },
     event: {
-        type: Schema.Types.ObjectId,
-        ref: 'Event'
+        name: {
+            type: String,
+        },
+        endDate: {
+            type: Date,
+        },
+        eventDescription: {
+            type: String,
+            default: "",
+        },
+        color: {
+            type: String,
+        }
     }
 }, { timestamps: true });
 

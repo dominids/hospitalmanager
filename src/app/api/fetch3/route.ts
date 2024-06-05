@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
 import { connectMongoDB } from "../../../../lib/mongodb";
-import ProviderNamesSchema from "../../../../models/providerNames";
 import Appliance from "../../../../models/appliance";
 
 export async function GET() {
     try {
         await connectMongoDB();
-        const appliance = await Appliance.find();
+        const appliance = await Appliance.find().select('appliance inventoryNumber model event notes');
+        console.log(appliance);
         return NextResponse.json({ appliance }, { status: 201 });
 
     } catch (error) {
-        return NextResponse.json({ message: "Error occured while fetching the data" }, { status: 500 });
+        console.error("Error fetching appliances:", error.message);
+        console.error("Error stack:", error.stack);
+        throw error;
     }
 }
 export async function POST(req) {
@@ -48,6 +50,7 @@ export async function POST(req) {
 
         return NextResponse.json({ message: `${appliance} registered in category` }, { status: 201 });
     } catch (error) {
+        throw error;
         return NextResponse.json({ message: "Error occured while registering" }, { status: 500 });
     }
 }

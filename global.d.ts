@@ -21,5 +21,31 @@ declare module "next-auth/jwt" {
 interface Item {
   _id: string;
   name: string;
-  __v: number;
+  __v?: number;
+}
+
+interface Appliance extends Item {
+  inventoryNumber: Number,
+  model: string,
+  appliance: string,
+  notes: string,
+  event: {
+      name?: String,
+      endDate?: Date,
+      eventDescription: String,
+      color?: String
+  },
+}
+
+interface ApplianceExtended extends Item {
+  createdAt: Date,
+  updatedAt: Date,
+  buyDate: Date,
+  guaranteeDate: Date,
+  reviewDate: Date,
+  serialNumber: string,
+  location: string,
+  manufacturer: string,
+  provider: string,
+  worth: string
 }
