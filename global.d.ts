@@ -25,27 +25,29 @@ interface Item {
 }
 
 interface Appliance extends Item {
-  inventoryNumber: Number,
-  model: string,
-  appliance: string,
-  notes: string,
+  inventoryNumber: number;
+  model: string;
+  appliance: string;
+  notes: string;
   event: {
-      name?: String,
-      endDate?: Date,
-      eventDescription: String,
-      color?: String
-  },
+    name?: string;
+    endDate?: Date;
+    eventDescription: string;
+    color?: string;
+  };
 }
 
-interface ApplianceExtended extends Item {
-  createdAt: Date,
-  updatedAt: Date,
-  buyDate: Date,
-  guaranteeDate: Date,
-  reviewDate: Date,
-  serialNumber: string,
-  location: string,
-  manufacturer: string,
-  provider: string,
-  worth: string
+interface Appliance2 extends Item {
+  createdAt: Date;
+  updatedAt: Date;
+  buyDate: Date;
+  guaranteeDate: Date;
+  reviewDate: Date;
+  serialNumber: string;
+  location: string;
+  manufacturer: string;
+  provider: string;
+  worth: string;
 }
+
+interface ApplianceExtended extends Appliance, Appliance2 {}

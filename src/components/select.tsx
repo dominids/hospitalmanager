@@ -1,9 +1,10 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Item } from "../../global";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
-const MyContext = createContext("123456789");
-export default function Select({ category, value }) {
+import PropTypes from 'prop-types';
+
+export default function Select({ category, value, defaultChecked1 }) {
     const { data: session } = useSession();
     const [data, setData] = useState<{ [key: string]: Item[] }>({});
     const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +15,7 @@ export default function Select({ category, value }) {
     const fetchData = async (category: string) => {
         if (!session?.user?.role) redirect("/dashboard")
         try {
-            value("select#123456789");
+            value(defaultChecked1);
             const resNameExists = await fetch(`/api/fetch/${category}`, {
                 method: "GET", //method in api
                 headers: {
@@ -39,16 +40,23 @@ export default function Select({ category, value }) {
                 isLoading ? (
                     <option>Loading</option>
                 ) : (<>
-                    <option defaultChecked value={"select#123456789"}>select</option>
-                    {Object.keys(data).map((category) => (
-                        data[category].map((item) => (
-                            <option key={item._id} value={item.name}>
+                    {Object.keys(data).map((category) => (<>
+                        <option key={category} value={defaultChecked1}> {defaultChecked1}</option>
+                        {data[category].map((item) => (
+                            item.name!=defaultChecked1 ? (
+                            <option key={item._id} value={item.name} >
                                 {item.name}
-                            </option>
-                        ))
-                    ))}
+                            </option>) : (null)
+                        ))}
+                    </>))}
                 </>)
             }
-        </select>
+        </select >
     );
+}
+
+Select.PropTypes = {
+    category: String,
+    value: Function,
+    defaultChecked1: String,
 }

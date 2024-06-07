@@ -5,7 +5,7 @@ import ProviderNamesSchema from "../../../../models/providerNames";
 export async function GET() {
     try {
         await connectMongoDB();
-        const providerNames = await ProviderNamesSchema.find();
+        const providerNames = await ProviderNamesSchema.find().sort({"name": "asc"});;
         console.log(providerNames);
         return NextResponse.json({ providerNames }, { status: 201 });
 

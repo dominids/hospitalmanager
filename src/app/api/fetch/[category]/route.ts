@@ -27,7 +27,7 @@ export async function GET(req: NextRequest, { params }) {
             model = ProviderNamesSchema;
         } else return NextResponse.json({ message: "Invalid category" }, { status: 500 });
 
-        const fetchedItem = await model.find();
+        const fetchedItem = await model.find().sort({"name": "asc"});
         if (!fetchedItem) {
             return NextResponse.json({ success: false, message: 'Item not found' }, { status: 404 });
         }

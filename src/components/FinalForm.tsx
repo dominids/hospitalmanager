@@ -9,21 +9,21 @@ export default function FinalForm(props) {
     if (!session) redirect("/dashboard")
 
     const [appliance, setAppliance] = useState("");
-    function Sappliance(v){
+    function Sappliance(v) {
         setAppliance(v);
     }
     const [inventoryNumber, setInventoryNumber] = useState("");
     const [serialNumber, setSerialNumber] = useState("");
     const [manufacturer, setManufacturer] = useState("");
-    function SManufacturer(v){
+    function SManufacturer(v) {
         setManufacturer(v);
     }
     const [provider, setProvider] = useState("");
-    function SProvider(v){
+    function SProvider(v) {
         setProvider(v);
     }
     const [location, setLocation] = useState("");
-    function SLocation(v){
+    function SLocation(v) {
         setLocation(v);
     }
     const [model, setModel] = useState("");
@@ -32,7 +32,6 @@ export default function FinalForm(props) {
     const [reviewDate, setReviewDate] = useState("");
     const [worth, setWorth] = useState("");
     const [notes, setNotes] = useState("");
-    const [data, setData] = useState("");
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -40,13 +39,13 @@ export default function FinalForm(props) {
         if (!session?.user?.role) redirect("/dashboard")
         e.preventDefault(); //check if it's not default
         setIsSubmitting(true);
-
-        if (appliance == "select#123456789" || !inventoryNumber || !serialNumber || manufacturer == "select#123456789" || provider == "select#123456789" ||
-            !model || location == "select#123456789" || !buyDate || !guaranteeDate || !reviewDate || worth == "zł") {
+        if (appliance == "select" || !inventoryNumber || !serialNumber || manufacturer == "select" || provider == "select" ||
+            !model || location == "select" || !buyDate || !guaranteeDate || !reviewDate || worth == "zł") {
             setError("All fields are mandatory");
             setIsSubmitting(false);
             return;
         }
+
         try {
 
             //check if exists 
@@ -58,16 +57,16 @@ export default function FinalForm(props) {
                 body: JSON.stringify({ inventoryNumber }) //stringify converts value to json
             })
 
-            const { payload } = await resNameExists.json();
-            if (payload) {
-                setError(`Appliance already exist`);
+
+            const { id2 } = await resNameExists.json();;
+
+            //if user is not null return an error and exit the function
+            if (id2) {
+                setError("Appliance already exists");
                 setIsSubmitting(false);
                 return;
             }
-            //creating the appliance
-            console.log(JSON.stringify({
-                appliance, inventoryNumber, serialNumber, manufacturer, provider, model, location, buyDate, guaranteeDate, reviewDate, worth, notes
-            }));
+
             const res = await fetch('/api/fetch3', {
                 method: "POST",
                 headers: {
@@ -102,6 +101,7 @@ export default function FinalForm(props) {
             setIsSubmitting(false);
         } catch (error) {
             console.log(error.message)
+            setIsSubmitting(false);
         }
     }
     return (
@@ -119,7 +119,7 @@ export default function FinalForm(props) {
                     </label>
                     <label>
                         Appliance name
-                        <Select category="appliance" value={Sappliance}></Select>
+                        <Select category="appliance" value={Sappliance} defaultChecked1={"select"}></Select>
                     </label>
                     <label>
                         Model
@@ -127,11 +127,11 @@ export default function FinalForm(props) {
                     </label>
                     <label>
                         Manufacturer
-                        <Select category="manufacturerNames" value={SManufacturer}></Select>
+                        <Select category="manufacturer" value={SManufacturer} defaultChecked1={"select"}></Select>
                     </label>
                     <label>
                         Provider
-                        <Select category="provider" value={SProvider}></Select>
+                        <Select category="provider" value={SProvider} defaultChecked1={"select"}></Select>
                     </label>
                     <label>
                         Buy Date
@@ -151,7 +151,7 @@ export default function FinalForm(props) {
                     </label>
                     <label>
                         Location
-                        <Select category="locationNames" value={SLocation}></Select>
+                        <Select category="locationNames" value={SLocation} defaultChecked1={"select"}></Select>
                     </label>
                 </div>
                 <label>
