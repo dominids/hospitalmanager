@@ -3,11 +3,13 @@ import { DefaultUser } from "next-auth";
 declare module "next-auth" {
   interface User extends DefaultUser {
     role?: string;
+    location?: string;
   }
 
   interface Session {
     user: {
       role?: string;
+      location?: string;
     } & DefaultUser;
   }
 }
@@ -15,6 +17,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     role?: string;
+    location?: string;
   }
 }
 
@@ -32,8 +35,7 @@ interface Appliance extends Item {
   event: {
     name?: string;
     endDate?: Date;
-    eventDescription: string;
-    color?: string;
+    eventDescription?: string;
   };
 }
 

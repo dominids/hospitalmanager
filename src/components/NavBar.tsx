@@ -86,7 +86,10 @@ export default function NavBar({ children }) {
                                 </li>
                             </ul>
                             <hr className="border border-black border-solid"></hr>
-                            <li className="hover:bg-teal-200 px-2 bg-teal-100 font-bold">Set New Admin</li>
+                            <Link href={'/manageUsers'}>
+
+                                <li className="hover:bg-teal-200 px-2 bg-teal-100 font-bold">Manage Users</li>
+                            </Link>
                         </ul>
                     </div>
                     <div className=" flex-grow">

@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { Appliance, Appliance2, ApplianceExtended } from "../../global";
 import Select from "./select";
+import EventDialog from "./EventDialog";
 
 export default function Dash() {
     const { data: session } = useSession();
@@ -19,6 +20,18 @@ export default function Dash() {
     const [preventDetails, setPreventDetails] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState("");
+    const [response, setResponse] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>({ key: "inventoryNumber", direction: "ascending" });
+
+    useEffect(() => {
+        setIsLoading(true);
+        fetchData();
+    }, [editing, response]);
+
+    function SResponse(v) {
+        setResponse(v);
+    }
     function SAppliance(v) {
         setNewName((prevState) => ({
             ...prevState,
@@ -44,25 +57,31 @@ export default function Dash() {
         }))
     }
 
-
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>({ key: "inventoryNumber", direction: "ascending" });
-
-    useEffect(() => {
-        setIsLoading(true);
-        fetchData();
-    }, [editing]);
-
     const fetchData = async () => {
-        if (!session?.user?.role) redirect("/dashboard");
+        if (!session) redirect("/dashboard");
+        const loc = session.user?.location;
         try {
-            const resNameExists = await fetch(`/api/fetch3`, {
-                method: "GET", // method in API
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            var resNameExists;
+            if (loc) {
+                resNameExists = await fetch(`/api/fetch4/${loc}`, {
+                    method: "GET", // method in API
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+            }
+            else {
+                resNameExists = await fetch(`/api/fetch3`, {
+                    method: "GET", // method in API
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+            }
+
+            console.log(loc);
             const resNameExistsJSON = await resNameExists.json();
+            console.log(resNameExistsJSON);
             if (resNameExistsJSON && typeof resNameExistsJSON === "object") {
                 setData(resNameExistsJSON);
                 setIsLoading(false);
@@ -164,6 +183,19 @@ export default function Dash() {
         }
     };
 
+    const handleDeleteEvent = async (id: string) => {
+        try {
+            const response = await fetch(`/api/addEvent/${id}`, {
+                method: "DELETE",
+            });
+            if (response.ok) {
+                console.log("it's ok");
+                fetchData();
+            }
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
+    }
 
     const handleSort = (key: string) => {
         let direction = "ascending";
@@ -193,14 +225,15 @@ export default function Dash() {
             item.appliance.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.inventoryNumber.toString().includes(searchTerm.toLowerCase()) ||
-            item.notes.toLowerCase().includes(searchTerm.toLowerCase())
+            item.notes.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.event?.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
     };
 
     return (
         <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6">
             {isLoading ? (
-                <h1>Loading the data</h1>
+                <span className="loading loading-spinner loading-md"></span>
             ) : (
                 <div>
                     <input
@@ -215,24 +248,30 @@ export default function Dash() {
                             <table className="border-separate border-spacing-5 table-fixed w-full">
                                 <thead>
                                     <tr>
-                                        <th className="w-16">Details</th>
-                                        <th className="w-48 cursor-pointer" onClick={() => handleSort('inventoryNumber')}>Inventory Number</th>
-                                        <th className="w-48 cursor-pointer" onClick={() => handleSort('appliance')}>Name</th>
-                                        <th className="w-48 cursor-pointer" onClick={() => handleSort('model')}>Model</th>
+                                        {session?.user?.role ? (<th className="w-16">Details</th>) : (<></>)}
+                                        <th className="w-48 cursor-pointer" onClick={() => handleSort('inventoryNumber')}>
+                                            Inventory Number {sortConfig && sortConfig.key === 'inventoryNumber' && <span>{sortConfig.direction === 'ascending' ? '▲' : '▼'}</span>}
+                                        </th>
+                                        <th className="w-48 cursor-pointer" onClick={() => handleSort('appliance')}>
+                                            Name {sortConfig && sortConfig.key === 'appliance' && <span>{sortConfig.direction === 'ascending' ? '▲' : '▼'}</span>}
+                                        </th>
+                                        <th className="w-48 cursor-pointer" onClick={() => handleSort('model')}>
+                                            Model {sortConfig && sortConfig.key === 'model' && <span>{sortConfig.direction === 'ascending' ? '▲' : '▼'}</span>}
+                                        </th>
                                         <th>Notes</th>
-                                        <th className="w-28">Event</th>
+                                        <th className="w-48 cursor-pointer" onClick={() => handleSort('event')}>
+                                            Event {sortConfig && sortConfig.key === 'event' && <span>{sortConfig.direction === 'ascending' ? '▲' : '▼'}</span>}
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {sortedData(filteredData(data[category])).map((item) => (
                                         <>
                                             <tr key={item._id}>
-                                                <td
+                                                {session?.user?.role ? (<td
                                                     className="text-center text-xl cursor-pointer"
-                                                    onClick={() => handleDetails(item._id)}
-                                                >
-                                                    &#8597;
-                                                </td>
+                                                    onClick={() => handleDetails(item._id)}>&#8597;
+                                                </td>) : (<></>)}
                                                 <td className="w-96 text-center">
                                                     {editing && editing.id === item._id ? (
                                                         <input
@@ -291,8 +330,30 @@ export default function Dash() {
                                                         item.notes
                                                     )}
                                                 </td>
-                                                <td className="text-center">Event</td>
-                                            </tr>
+                                                <td className="text-center">
+                                                    {item.event ? (<>
+                                                            {item.event.name}
+
+                                                        {session.user?.role ?
+                                                            (<button className="bg-red-600 p-2 text-white m-1" onClick={() => handleDeleteEvent(item._id)}>X</button>) : (<></>)
+                                                        }
+                                                    </>) :
+                                                        (<>
+                                                            <EventDialog event={item.event} id={item._id} response={SResponse}></EventDialog>
+                                                            <button
+                                                                className="btn"
+                                                                onClick={() => {
+                                                                    const modal = document.getElementById('modal') as HTMLDialogElement;
+                                                                    if (modal) {
+                                                                        modal.showModal();
+                                                                    }
+                                                                }}
+                                                            >
+                                                                Add Event
+                                                            </button>
+                                                        </>)}
+                                                </td>
+                                            </tr >
                                             <tr>
                                                 {details && details.id === item._id && (
                                                     <td colSpan={6}>
@@ -328,7 +389,7 @@ export default function Dash() {
                                                                         <td className="w-96 text-center">
                                                                             {editing && editing.id === data2[category]._id ? (<>
                                                                                 <b>Location: </b>
-                                                                                <Select category={"locationNames"} value={SLocation} defaultChecked1={data2[category].location}></Select>
+                                                                                <Select category={"location"} value={SLocation} defaultChecked1={data2[category].location}></Select>
                                                                             </>) : (
                                                                                 <>
                                                                                     <b>Location: </b> {data2[category].location}
@@ -480,7 +541,8 @@ export default function Dash() {
                         </div>
                     ))}
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }

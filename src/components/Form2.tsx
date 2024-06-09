@@ -195,7 +195,7 @@ export default function Form2(props) {
 
                 {
                     isLoading ? (
-                        <h1>Loading the data</h1>
+                        <span className="loading loading-spinner loading-md"></span>
                     ) : (
                         <div className="w-9/12">
                             {Object.keys(data).map((category) => (

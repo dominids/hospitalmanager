@@ -1,4 +1,4 @@
-import ApplianceNames from "../../../../models/ApplianceNames";
+import ApplianceNames from "../../../../models/applianceNames";
 import EventNames from "../../../../models/eventNames";
 import { NextResponse } from "next/server";
 import { connectMongoDB } from "../../../../lib/mongodb";

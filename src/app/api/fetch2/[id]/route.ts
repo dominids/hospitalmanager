@@ -1,5 +1,5 @@
 import { connectMongoDB } from "../../../../../lib/mongodb";
-import ApplianceNames from "../../../../../models/ApplianceNames";
+import ApplianceNames from "../../../../../models/applianceNames";
 import EventNames from "../../../../../models/eventNames";
 import LocationNames from "../../../../../models/locationNames";
 import ManufacturerNames from "../../../../../models/manufacturersNames";

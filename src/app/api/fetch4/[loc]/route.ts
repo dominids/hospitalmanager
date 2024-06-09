@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
-import { connectMongoDB } from "../../../../lib/mongodb";
-import Appliance from "../../../../models/appliance";
+import { connectMongoDB } from "../../../../../lib/mongodb";
+import Appliance from "../../../../../models/appliance";
 
-export async function GET(req) {
+export async function GET(req, { params }) {
     try {
+        const {loc} = params
         await connectMongoDB();
-        const appliance = await Appliance.find().select('appliance inventoryNumber model event notes');
+        console.log(loc);
+        const appliance = await Appliance.find({location: loc}).select('appliance inventoryNumber model event notes');
         console.log(appliance);
         return NextResponse.json({ appliance }, { status: 201 });
 

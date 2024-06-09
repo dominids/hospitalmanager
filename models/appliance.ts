@@ -58,11 +58,7 @@ const applianceSchema = new Schema({
         },
         eventDescription: {
             type: String,
-            default: "",
         },
-        color: {
-            type: String,
-        }
     }
 }, { timestamps: true });
 

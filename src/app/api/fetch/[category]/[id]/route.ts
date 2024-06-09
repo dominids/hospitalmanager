@@ -1,5 +1,5 @@
 import { connectMongoDB } from "../../../../../../lib/mongodb";
-import ApplianceNames from "../../../../../../models/ApplianceNames";
+import ApplianceNames from "../../../../../../models/applianceNames";
 import EventNames from "../../../../../../models/eventNames";
 import LocationNames from "../../../../../../models/locationNames";
 import ManufacturerNames from "../../../../../../models/manufacturersNames";
@@ -12,14 +12,15 @@ export async function DELETE(req: NextRequest, { params }) {
 
     try {
         // Assuming the category corresponds to the model name
+        console.log(category);
         let model;
         if (category === 'appliance') {
             model = ApplianceNames;
         } else if (category === 'event') {
             model = EventNames;
-        } else if (category === 'locationNames') {
+        } else if (category === 'location') {
             model = LocationNames;
-        } else if (category === 'manufacturerNames') {
+        } else if (category === 'manufacturer') {
             model = ManufacturerNames;
         } else return NextResponse.json({ message: "Invalid category" }, { status: 500 });
 
@@ -48,10 +49,10 @@ export async function PUT(req: NextRequest, { params }) {
             model = ApplianceNames;
         } else if (category === 'event') {
             model = EventNames;
-        } else if (category === 'locationNames') {
+        } else if (category === 'location') {
             console.log("EEEj");
             model = LocationNames;
-        } else if (category === 'manufacturerNames') {
+        } else if (category === 'manufacturer') {
             model = ManufacturerNames;
         } else return NextResponse.json({ message: "Invalid category" }, { status: 500 });
 

@@ -13,7 +13,6 @@ export default function Select({ category, value, defaultChecked1 }) {
     }, [])
 
     const fetchData = async (category: string) => {
-        if (!session?.user?.role) redirect("/dashboard")
         try {
             value(defaultChecked1);
             const resNameExists = await fetch(`/api/fetch/${category}`, {

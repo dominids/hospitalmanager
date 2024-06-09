@@ -151,7 +151,7 @@ export default function FinalForm(props) {
                     </label>
                     <label>
                         Location
-                        <Select category="locationNames" value={SLocation} defaultChecked1={"select"}></Select>
+                        <Select category="location" value={SLocation} defaultChecked1={"select"}></Select>
                     </label>
                 </div>
                 <label>
