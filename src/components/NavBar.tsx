@@ -36,7 +36,7 @@ export default function NavBar({ children }) {
                             </div>
                             : null}
                         <Link href={'/dashboard'}>
-                            Hospital manager <span className="font-bold">{session?.user?.role}</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-pink-500 to-red-500">Hospital manager </span><span className="font-bold">{session?.user?.role}</span>
                         </Link>
                     </li>
                     <li className=" py-2">
