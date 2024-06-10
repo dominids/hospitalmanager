@@ -49,7 +49,7 @@ export default function LoginForm() {
           <div className="bg-red-500 text-white text-sm w-fit py-1 px3 rounded-md mt-2">{error}</div>
           )}
           <Link href={'/register'} className="text-sm mt-3 text-right">
-            Dont' have an account? <span className="underline">Register</span>
+            Dont have an account?<span className="underline">Register</span>
           </Link>
         </form>
       </div>

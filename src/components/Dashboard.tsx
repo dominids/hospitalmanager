@@ -58,8 +58,10 @@ export default function Dash() {
     }
 
     const fetchData = async () => {
-        if (!session) redirect("/dashboard");
-        const loc = session.user?.location;
+        if (await !session) {
+            redirect("/login");
+        }
+        const loc = await session.user?.location;
         try {
             var resNameExists;
             if (loc) {

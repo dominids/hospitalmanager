@@ -4,17 +4,33 @@ import Appliance from "../../../../models/appliance";
 export async function PUT(req) {
     try {
         const { id, name, endDate, eventDescription } = await req.json();
-        const updatedAppliance = await Appliance.findByIdAndUpdate(
-            id,
-            {
-                event: {
-                    name: name,
-                    endDate: new Date(endDate),
-                    eventDescription: eventDescription,
-                }
-            },
-            { new: true } // This option returns the modified document rather than the original.
-        );
+        console.log(id, name, endDate, eventDescription);
+        var updatedAppliance;
+        if (eventDescription && endDate) {
+            updatedAppliance = await Appliance.findByIdAndUpdate(
+                id,
+                {
+                    event: {
+                        name: name,
+                        endDate: new Date(endDate),
+                        eventDescription: eventDescription,
+                    }
+                },
+                { new: true } // This option returns the modified document rather than the original.
+            );
+        }
+        else {
+            updatedAppliance = await Appliance.findByIdAndUpdate(
+                id,
+                {
+                    event: {
+                        name: name,
+                        eventDescription: eventDescription,
+                    }
+                },
+                { new: true } // This option returns the modified document rather than the original.
+            );
+        }
         if (!updatedAppliance) {
             return NextResponse.json({ message: "Appliance not found" }, { status: 404 });
         }

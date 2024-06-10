@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Select from "./select";
+import { useSession } from "next-auth/react";
 
 type EventDialogProps = {
     event: {
@@ -13,10 +14,11 @@ type EventDialogProps = {
 
 
 export default function EventDialog(props: EventDialogProps) {
+    const { data: session } = useSession();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string>("");
-    const [name, setName] = useState<string>('');
-    const [endDate, setEndDate] = useState<String>();
+    const [name, setName] = useState<string>("Awaria");
+    const [endDate, setEndDate] = useState<String>("");
     const [eventDescription, setEventDescription] = useState<string>("");
 
     function SEventName(v) {
@@ -24,15 +26,9 @@ export default function EventDialog(props: EventDialogProps) {
     }
 
     const handleSubmit = async (e) => {
-        console.log(name, endDate, eventDescription)
         e.preventDefault();
-        setIsSubmitting(true);
+
         setError("");
-        if (!name || !endDate) {
-            setError("Name and Date are manadatory");
-            setIsSubmitting(false);
-            return;
-        }
         try {
             const id = props.id;
             const res = await fetch('/api/addEvent', {
@@ -47,11 +43,9 @@ export default function EventDialog(props: EventDialogProps) {
                 const form = e.target;
                 form.reset();
                 setError("");
-                setName("");
                 const modal = document.getElementById('modal') as HTMLDialogElement;
                 if (modal) {
                     props.response(true);
-                    setIsSubmitting(false);
                     modal.close();
                 }
             } else {
@@ -70,13 +64,19 @@ export default function EventDialog(props: EventDialogProps) {
                 <h3 className="font-bold text-lg mb-3">Add event</h3>
                 <form action="" className="" onSubmit={handleSubmit}>
                     <label>Name
-                    <Select category={"event"} value={SEventName} defaultChecked1={"select"}></Select>
-                    </label>
-                    <label>End date
-                    <input type="date" maxLength={30} minLength={3} className="mb-2 mt-2" onChange={(e) => setEndDate(e.target.value)} placeholder="End date" />
+                        {session.user?.role ? <>
+                            <Select category={"event"} value={SEventName} defaultChecked1={"select"}></Select>
+                            <label>End date
+                                <input type="date" maxLength={30} minLength={3} className="mb-2 mt-2" onChange={(e) => setEndDate(e.target.value)} placeholder="End date" />
+                            </label>
+                        </> :
+                            <select className="w-full p-3 text-ellipsis" >
+                                <option value="Alert" defaultChecked>Awaria</option>
+                            </select>
+                        }
                     </label>
                     <label>Description
-                    <input type="text" className="mb-2" onChange={(e) => setEventDescription(e.target.value)} placeholder="Description" />
+                        <input type="text" className="mb-2" onChange={(e) => setEventDescription(e.target.value)} placeholder="Description" />
                     </label>
                     <button disabled={isSubmitting} className="bg-green-600 hover:bg-green-700 disabled:bg-gray-500 text-white font-bold cursor-pointer px-6 py-2">Submit</button>
                     {error && (
