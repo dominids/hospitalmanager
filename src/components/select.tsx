@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { Item } from "../../global";
-import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
-import PropTypes from 'prop-types';
 
 export default function Select({ category, value, defaultChecked1 }) {
     const { data: session } = useSession();

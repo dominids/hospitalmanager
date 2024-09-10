@@ -27,7 +27,6 @@ export default function EventDialog(props: EventDialogProps) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         setError("");
         try {
             const id = props.id;

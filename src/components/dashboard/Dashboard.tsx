@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { Appliance, Appliance2, ApplianceExtended } from "../../global";
-import Select from "./select";
-import EventDialog from "./EventDialog";
+import { Appliance, Appliance2, ApplianceExtended } from "../../../global";
+import Select from "../select";
+import EventDialog from "../EventDialog";
 
 export default function Dash() {
     const { data: session } = useSession();
@@ -342,7 +342,7 @@ export default function Dash() {
                                                     </>) :
                                                         (<>
                                                             <EventDialog event={item.event} id={item._id} response={SResponse}></EventDialog>
-                                                            <button
+                                                            <button 
                                                                 className="btn"
                                                                 onClick={() => {
                                                                     const modal = document.getElementById('modal') as HTMLDialogElement;
