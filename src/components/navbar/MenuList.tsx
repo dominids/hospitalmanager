@@ -12,6 +12,6 @@ export default function MenuList({ }) {
         <NavListElement displayedName="Manufacturer" url="/add/manufacturer" />
         <NavListElement displayedName="Provider" url="/add/provider" />
         <hr className="border border-black border-solid"></hr>
-        <NavListElement displayedName="Manage Users" url="manageUsers" />
+        <NavListElement displayedName="Manage Users" url="/manageUsers"/>
     </ul>);
 }
