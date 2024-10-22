@@ -27,7 +27,7 @@ export default function Dash() {
     useEffect(() => {
         setIsLoading(true);
         fetchData();
-    }, [editing, response]);
+    }, [editing, response,]);
 
     function SResponse(v) {
         setResponse(v);
